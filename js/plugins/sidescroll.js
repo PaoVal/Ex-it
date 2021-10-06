@@ -41,8 +41,9 @@
       var left = Input.isPressed('left');
       var right = Input.isPressed('right');
       var up = Input.isPressed('up');
-      if (this._gravityJumping > 0) {
-        if (!up) this._gravityJumping = 0;
+      var wall = 1;
+      if ((this._gravityJumping > 0)&&(wall==1)) {
+        //if (!up) this._gravityJumping = 0;
         if (left && !right) {
           this.gravityJump(4);
         } else if (!left && right) {
@@ -162,6 +163,35 @@
     }
   }
 
+  Game_CharacterBase.prototype.gravityJump2 = function(horz) {
+    var dec = this._x.getDecimal();
+    if (dec === 0) {
+      this.setMovementSuccess(this.canPass(this._x, this._y, 8));
+    } else {
+      this.setMovementSuccess(this.canPass(this._x, this._y, 8)) && this.setMovementSuccess(this.canPass(this._x + 1, this._y, 8));
+    }
+    if (this.isMovementSucceeded()) {
+        this._y = $gameMap.roundYStep(this._y, 8);
+        this._realY = $gameMap.yStep(this._y, this.reverseDir(8));
+        if (horz) {
+          this.setDirection(horz);
+          var sideMovementSuccess = this.canPass(this._x, this._y, horz) && this.canPass(this._x, this._y + 1, horz);
+          if (sideMovementSuccess) {
+            this._x = $gameMap.roundXStep(this._x, horz);
+            this._realX = $gameMap.xStep(this._x, this.reverseDir(horz));
+          } else {
+            this.checkEventTriggerTouchFront(horz);
+          }
+        }
+        this.increaseSteps();
+        this._gravityJumping--;
+        this.checkEventTriggerTouch(Math.floor(this._x), Math.floor(this._y));
+    } else {
+        this.checkEventTriggerTouchFront(8);
+        this._gravityJumping = 0;
+    }
+  }
+
   var _Game_CharacterBase_canPass = Game_CharacterBase.prototype.canPass;
   Game_CharacterBase.prototype.canPass = function(x, y, d) {
       var x1 = Math.floor(x), y1 = Math.floor(y);
@@ -213,7 +243,7 @@
               direction = this.findDirectionTo(x, y);
           }
           if (direction === 8) {
-            this._gravityJumping = 120;
+            this._gravityJumping = 50;
           } else if (direction > 0 && direction < 8) {
               this.executeMove(direction);
           }
