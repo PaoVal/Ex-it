@@ -422,7 +422,7 @@
  *
  * メモ欄タグ（アクター、装備、ステート）:
  * 
- *   <move_speed:0.05>        # 歩行速度
+ *   <move_speed:0.1>        # 歩行速度
  *   <jump_speed:0.14>        # ジャンプ力
  *   <swim_speed:0.02>        # 泳ぐ速度
  *   <ladder_speed:0.04>      # はしご移動速度
@@ -1231,8 +1231,8 @@ function Game_Bullet() {
     this._jumpInput = 0;
     this._dashCount = 0;
     this._friction = 0;
-    this._moveSpeed = 0.05;
-    this._jumpSpeed = 0.14;
+    this._moveSpeed = 0.1;
+    this._jumpSpeed = 0.2;
     this._swimSpeed = 0.02;
     this._dashSpeedX = 0.1;
     this._dashSpeedY = 0.03;
@@ -2558,8 +2558,8 @@ function Game_Bullet() {
       var characterName   = actor.characterName();
       var characterIndex  = actor.characterIndex();
       var data = actor.actor();
-      this._moveSpeed = +(data.meta['move_speed'] || 0.05);
-      this._jumpSpeed = +(data.meta['jump_speed'] || 0.14);
+      this._moveSpeed = +(data.meta['move_speed'] || 0.1);
+      this._jumpSpeed = +(data.meta['jump_speed'] || 0.2);
       this._swimSpeed = +(data.meta['swim_speed'] || 0.02);
       this._ladderSpeed = +(data.meta['ladder_speed'] || 0.04);
       this._accele = +(data.meta['accele'] || 0.003);
