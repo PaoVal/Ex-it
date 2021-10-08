@@ -1688,52 +1688,6 @@ function Game_Bullet() {
     this._vy = vert === 8 ? -this._moveSpeed : this._moveSpeed;
   };
 
-  // ジャンプ
-  Game_CharacterBase.prototype.jump = function(xPlus, yPlus) {
-    if (this._jumpCount <= 0) return;
-    this._jumpCount--;
-    if (xPlus < 0) {
-      this.setDirection(4);
-      var speed = this._moveSpeed / 100 + 0.02;
-      this._moveCount = Math.floor(1 / speed);
-      this._vx = -speed;
-    } else if (xPlus > 0) {
-      this.setDirection(6);
-      var speed = this._moveSpeed / 100 + 0.02;
-      this._moveCount = Math.floor(1 / speed);
-      this._vx = speed;
-    }
-    if (yPlus != 0) {
-      this._vy = yPlus / 100;
-    } else {
-      this._vy = this.isSwimming() ? -this._swimJump : -this._jumpSpeed;
-    }
-    this.resetStopCount();
-    this.straighten();
-  };
-
-  Game_CharacterBase.prototype.jumpRight = function(xPlus, yPlus) {
-    if (this._jumpCount <= 0) return;
-    this._jumpCount--;
-    if (yPlus < 0) {
-      this.setDirection(8);
-      var speed = this._moveSpeed / 100 + 0.02;
-      this._moveCount = Math.floor(1 / speed);
-      this._vy = -speed;
-    } else if (yPlus > 0) {
-      this.setDirection(2);
-      var speed = this._moveSpeed / 100 + 0.02;
-      this._moveCount = Math.floor(1 / speed);
-      this._vy = speed;
-    }
-    if (xPlus != 0) {
-      this._vx = xPlus / 100;
-    } else {
-      this._vx = this.isSwimming() ? -this._swimJump : -this._jumpSpeed;
-    }
-    this.resetStopCount();
-    this.straighten();
-  };
 
   // ダッシュ（方向指定）
   Game_CharacterBase.prototype.dashFromDirection = function(direction) {
@@ -2432,6 +2386,7 @@ function Game_Bullet() {
       AudioManager.playSe(actSeJump);
     }
   };
+
 
   // 壁ジャンプの X 方向処理
   Game_Player.prototype.wallJump = function() {
