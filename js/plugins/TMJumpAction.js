@@ -1712,6 +1712,29 @@ function Game_Bullet() {
     this.straighten();
   };
 
+  Game_CharacterBase.prototype.jumpRight = function(xPlus, yPlus) {
+    if (this._jumpCount <= 0) return;
+    this._jumpCount--;
+    if (yPlus < 0) {
+      this.setDirection(8);
+      var speed = this._moveSpeed / 100 + 0.02;
+      this._moveCount = Math.floor(1 / speed);
+      this._vy = -speed;
+    } else if (yPlus > 0) {
+      this.setDirection(2);
+      var speed = this._moveSpeed / 100 + 0.02;
+      this._moveCount = Math.floor(1 / speed);
+      this._vy = speed;
+    }
+    if (xPlus != 0) {
+      this._vx = xPlus / 100;
+    } else {
+      this._vx = this.isSwimming() ? -this._swimJump : -this._jumpSpeed;
+    }
+    this.resetStopCount();
+    this.straighten();
+  };
+
   // ダッシュ（方向指定）
   Game_CharacterBase.prototype.dashFromDirection = function(direction) {
     var vx = direction === 4 ? -this._dashSpeedX : this._dashSpeedX;
@@ -2066,6 +2089,14 @@ function Game_Bullet() {
   // 重力の処理
   Game_Player.prototype.updateGravity = function() {
     if (this._ladder || (this._jumpPeak > this._realY && this._gravity > 0)) {
+      this.resetPeak();
+      if (this._ladder) return;
+    }
+    Game_Character.prototype.updateGravity.call(this);
+  };
+
+  Game_Player.prototype.updateGravityRight = function() {
+    if (this._ladder || (this._jumpPeak > this._realX && this._gravity > 0)) {
       this.resetPeak();
       if (this._ladder) return;
     }
