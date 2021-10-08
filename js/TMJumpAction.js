@@ -339,7 +339,7 @@
  * @dir img/system/
  * @type file
  *
- * @param bulletTyp  eSize
+ * @param bulletTypeSize
  * @type string
  * @desc 弾タイプごとの当たり判定のサイズ。
  * 初期値: 6,6,6,6
@@ -422,7 +422,7 @@
  *
  * メモ欄タグ（アクター、装備、ステート）:
  * 
- *   <move_speed:0.05>        # 歩行速度
+ *   <move_speed:0.1>        # 歩行速度
  *   <jump_speed:0.14>        # ジャンプ力
  *   <swim_speed:0.02>        # 泳ぐ速度
  *   <ladder_speed:0.04>      # はしご移動速度
@@ -584,9 +584,7 @@ function Game_Bullet() {
   var actDamageFallHeight = +(parameters['damageFallHeight'] || 5);
   var actFlickWeight = +(parameters['flickWeight'] || 1);
   var actFlickSkill = +(parameters['flickSkill'] || 1);
-  var actMagWalkRegion = +(parameters['magWalkRegion'] || 58);
-  var actMagRegion = +(parameters['magRegion'] || 59);
-
+  var actMagRegion = +(parameters['MagRegion'] || 59);
   var actStageRegion = +(parameters['stageRegion'] || 60);
   var actWallRegion = +(parameters['wallRegion'] || 61);
   var actSlipWallRegion = +(parameters['slipWallRegion'] || 62);
@@ -945,15 +943,6 @@ function Game_Bullet() {
       var flag = flags[tiles[i]];
       if (rg === actStageRegion) flag |= 1;
       if (rg === actMagRegion) return false;
-      if (rg === actMagWalkRegion) {
-        // console.log(x);
-        // console.log(y);
-        // console.log("regular one: ")
-        // console.log(this.tileId(x, y, 5));
-        // console.log(this)
-        // console.log(this.(tileId(x,y,5)))
-        // console.log("walk region")
-      }
       if ((flag & 0x10) !== 0) continue;      // [*] No effect on passage
       if ((flag & bit) === 0) return true;    // [o] Passable
       if ((flag & bit) === bit) return false; // [x] Impassable
@@ -1244,8 +1233,8 @@ function Game_Bullet() {
     this._jumpInput = 0;
     this._dashCount = 0;
     this._friction = 0;
-    this._moveSpeed = 0.05;
-    this._jumpSpeed = 0.14;
+    this._moveSpeed = 0.1;
+    this._jumpSpeed = 0.2;
     this._swimSpeed = 0.02;
     this._dashSpeedX = 0.1;
     this._dashSpeedY = 0.03;
@@ -1375,7 +1364,6 @@ function Game_Bullet() {
   Game_CharacterBase.prototype.updateMove = function() {
     this.updateGravity();
     this.updateFriction();
-
     if (this._vx !== 0 || this._vxPlus !== 0) {
       this._realX += this._vx + this._vxPlus;
       if (this._through) {
@@ -1428,7 +1416,6 @@ function Game_Bullet() {
     if (this.isLanding()) {
       if (Object.prototype.toString.call(this._landingObject) !== '[object Array]' &&
           this._landingObject._lift) {
-        // this._vxPlus = 0;
         this._vxPlus = this._landingObject._vx;
       }
     } else {
@@ -1685,13 +1672,13 @@ function Game_Bullet() {
     this.setDirection(d);
     this._moveCount = Math.floor(1 / this._moveSpeed);
     if (d === 2) {
-      this._vy = this._moveSpeed*-1;
+      this._vy = this._moveSpeed;
     } else if (d === 4) {
-      this._vx = -this._moveSpeed*-1;
+      this._vx = -this._moveSpeed;
     } else if (d === 6) {
-      this._vx = this._moveSpeed*-1;
+      this._vx = this._moveSpeed;
     } else {
-      this._vy = -this._moveSpeed*-1;
+      this._vy = -this._moveSpeed;
     }
   };
 
@@ -1703,29 +1690,6 @@ function Game_Bullet() {
     this._vy = vert === 8 ? -this._moveSpeed : this._moveSpeed;
   };
 
-  // ジャンプ
-  Game_CharacterBase.prototype.jump = function(xPlus, yPlus) {
-    if (this._jumpCount <= 0) return;
-    this._jumpCount--;
-    if (xPlus < 0) {
-      this.setDirection(4);
-      var speed = this._moveSpeed / 100 + 0.02;
-      this._moveCount = Math.floor(1 / speed);
-      this._vx = -speed;
-    } else if (xPlus > 0) {
-      this.setDirection(6);
-      var speed = this._moveSpeed / 100 + 0.02;
-      this._moveCount = Math.floor(1 / speed);
-      this._vx = speed;
-    }
-    if (yPlus != 0) {
-      this._vy = yPlus / 100;
-    } else {
-      this._vy = this.isSwimming() ? -this._swimJump : -this._jumpSpeed;
-    }
-    this.resetStopCount();
-    this.straighten();
-  };
 
   // ダッシュ（方向指定）
   Game_CharacterBase.prototype.dashFromDirection = function(direction) {
@@ -2062,9 +2026,7 @@ function Game_Bullet() {
     }
     this.updateScroll(lastScrolledX, lastScrolledY);
     if (this.isBattler()) this.updateDamage();
-
-
-   this._followers.update();
+  //  this._followers.update();
   };
 
   // 入力の処理
@@ -2074,22 +2036,27 @@ function Game_Bullet() {
     this.attackByInput();
     this.changeByInput();
     this.moveByInput();
-    this.jumpByInput();
+    this.jumpByInputRight();
     this.dashByInput();
     this.guardByInput();
     this.triggerButtonAction();
   };
 
-var count = 1;
   // 重力の処理
   Game_Player.prototype.updateGravity = function() {
+
     if (this._ladder || (this._jumpPeak > this._realY && this._gravity > 0)) {
       this.resetPeak();
       if (this._ladder) return;
+      if  
+    }
+    Game_Character.prototype.updateGravity.call(this);
+  };
 
-      // comment this in out to remove floaty thing
-      var rg = $gameMap.tileId(this._x, this._y, 5);
-      if (rg === actMagWalkRegion) return;
+  Game_Player.prototype.updateGravityRight = function() {
+    if (this._ladder || (this._jumpPeak > this._realX && this._gravity > 0)) {
+      this.resetPeak();
+      if (this._ladder) return;
     }
     Game_Character.prototype.updateGravity.call(this);
   };
@@ -2424,6 +2391,48 @@ var count = 1;
     }
   };
 
+   Game_Player.prototype.jumpByInputRight = function() {
+    if (this._jumpInput > 0) {
+      this._jumpInput--;
+      if (Input.isPressed('jump')) {
+        this._vx = -this._jumpSpeed;
+      } else {
+        this._jumpInput = 0;
+      }
+    }
+    if (Input.isTriggered('jump')) {
+      if (this.isSwimming()) {
+        this.resetJump();
+        this._jumpCount--;
+      } else if (this._jumpCount > 0) {
+        this._jumpCount--;
+      } else {
+        if (!this._wallJump) return;
+        if (this._direction == 4) {
+          var y = Math.floor(this._realY - this._collideW - 0.16);
+        } else {
+          var y = Math.floor(this._realY + this._collideW + 0.16);
+        }
+        var x = Math.floor(this._realX);
+        if (!$gameMap.canWallJump(x, y, this._direction)) return;
+        this.wallJump();
+      }
+      if (this._ladder) {
+        this.getOffLadder();
+        if (Input.isPressed('down')) return;
+      }
+      this._jumpInput = this._jumpInputTime;
+      if (this.isDashing()) {
+        this._dashCount = this._dashCountTime;
+        this._vy = this._direction == 4 ? -this._dashSpeedX : this._dashSpeedX
+      }
+      this._vx = this.isSwimming() ? -this._swimJump : -this._jumpSpeed;
+      this.resetStopCount();
+      this.straighten();
+      AudioManager.playSe(actSeJump);
+    }
+  };
+
   // 壁ジャンプの X 方向処理
   Game_Player.prototype.wallJump = function() {
     this._vx = this._direction == 4 ? this._moveSpeed : -this._moveSpeed;
@@ -2580,8 +2589,8 @@ var count = 1;
       var characterName   = actor.characterName();
       var characterIndex  = actor.characterIndex();
       var data = actor.actor();
-      this._moveSpeed = +(data.meta['move_speed'] || 0.05);
-      this._jumpSpeed = +(data.meta['jump_speed'] || 0.14);
+      this._moveSpeed = +(data.meta['move_speed'] || 0.1);
+      this._jumpSpeed = +(data.meta['jump_speed'] || 0.2);
       this._swimSpeed = +(data.meta['swim_speed'] || 0.02);
       this._ladderSpeed = +(data.meta['ladder_speed'] || 0.04);
       this._accele = +(data.meta['accele'] || 0.003);
