@@ -2034,7 +2034,7 @@ function Game_Bullet() {
     this.attackByInput();
     this.changeByInput();
     this.moveByInput();
-    this.jumpByInput();
+    this.jumpByInputRight();
     this.dashByInput();
     this.guardByInput();
     this.triggerButtonAction();
