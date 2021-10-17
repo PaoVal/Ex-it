@@ -1232,7 +1232,7 @@ function Game_Bullet() {
     this._dashCount = 0;
     this._friction = 0;
     this._moveSpeed = 0.1;
-    this._jumpSpeed = 0.2;
+    this._jumpSpeed = 0.17;
     this._swimSpeed = 0.02;
     this._dashSpeedX = 0.1;
     this._dashSpeedY = 0.03;
@@ -2589,7 +2589,7 @@ function Game_Bullet() {
       var characterIndex  = actor.characterIndex();
       var data = actor.actor();
       this._moveSpeed = +(data.meta['move_speed'] || 0.1);
-      this._jumpSpeed = +(data.meta['jump_speed'] || 0.2);
+      this._jumpSpeed = +(data.meta['jump_speed'] || 0.17);
       this._swimSpeed = +(data.meta['swim_speed'] || 0.02);
       this._ladderSpeed = +(data.meta['ladder_speed'] || 0.04);
       this._accele = +(data.meta['accele'] || 0.003);
