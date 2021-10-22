@@ -1341,8 +1341,8 @@ function Game_Bullet() {
 
   // アニメーション間隔
   Game_CharacterBase.prototype.animationWait = function() {
-    return (actStepAnimeConstantA - this._moveSpeed -
-            (this.isDashing() ? 0.01 : 0)) * actStepAnimeConstantB;
+    return (actStepAnimeConstantA - 0.09 -
+            (this.isDashing() ? 0.01 : 0)) * actStepAnimeConstantB*3;
   };
 
   // フレーム更新
