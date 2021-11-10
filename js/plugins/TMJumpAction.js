@@ -645,7 +645,7 @@ function Game_Bullet() {
     Input.keyMapper[parameters['attackKey'].charCodeAt()] = 'attack';
   }
   if (parameters['jumpKey']) {
-    Input.keyMapper[38] = 'jump';
+    Input.keyMapper[90] = 'jump'; 
   }
   if (parameters['dashKey']) {
     Input.keyMapper[parameters['dashKey'].charCodeAt()] = 'dash';
