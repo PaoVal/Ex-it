@@ -2755,7 +2755,21 @@ Graphics._applyCanvasFilter = function() {
  * @private
  */
 Graphics._onVideoLoad = function() {
-    this._video.play();
+
+
+    var playPromise = this._video.play();
+
+    if (playPromise !== undefined) {
+        playPromise.then( _=> {
+          // Automatic playback started!
+          console.log("Auto-play started!");
+        })
+        .catch(error => {
+        // Auto-play was prevented
+        console.log("Auto-play was prevented");
+        });
+    }
+
     this._updateVisibility(true);
     this._videoLoading = false;
 };
@@ -3014,8 +3028,8 @@ Input.keyMapper = {
     39: 'right',    // right arrow
     40: 'down',     // down arrow
     45: 'escape',   // insert
-    81: 'pageup',   // Q
-    87: 'pagedown', // W
+    // 81: 'pageup',   // Q
+    // 87: 'pagedown', // W
     88: 'escape',   // X
     90: 'ok',       // Z
     96: 'escape',   // numpad 0

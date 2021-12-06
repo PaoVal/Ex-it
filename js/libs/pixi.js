@@ -29526,6 +29526,22 @@ var WebGLExtract = function () {
         return this.canvas(target).toDataURL();
     };
 
+    // var saveCounter = 1;
+    // Game_System.prototype.autoSaveGame = function() {
+    //     $gameSystem.onBeforeSave();
+    //     if (DataManager.saveGame(saveCounter) {
+    //         // console.log("Autosave successful. Saved in slot "+ Felski.AUTOSAVE.saveCounter + " with trigger " + Felski.AUTOSAVE.triggerText);
+    //         StorageManager.cleanBackup(saveCounter);
+    //         if(saveCounter >= 4){
+    //             saveCounter = 1;
+    //         }else{
+    //             saveCounter = saveCounter + 1;
+    //         }
+    //     } else {
+    //         console.warn("Autosave Failed.");
+    //     }
+    // };
+
     /**
      * Creates a Canvas element, renders this target to it and then returns it.
      *
@@ -29533,8 +29549,6 @@ var WebGLExtract = function () {
      *  to convert. If left empty will use use the main renderer
      * @return {HTMLCanvasElement} A Canvas element with the texture rendered on.
      */
-
-
     WebGLExtract.prototype.canvas = function canvas(target) {
         var renderer = this.renderer;
         var textureBuffer = void 0;
@@ -29553,6 +29567,12 @@ var WebGLExtract = function () {
 
         if (renderTexture) {
             textureBuffer = renderTexture.baseTexture._glRenderTargets[this.renderer.CONTEXT_UID];
+            if (textureBuffer == null) {
+            // might want to save player state, this breaks the game though.
+            // This is because this condition comes up during the menu screen (before the game has started)
+            // 	$gameSystem.autoSaveGame();
+            	window.location.reload();
+            }
             resolution = textureBuffer.resolution;
             frame = renderTexture.frame;
             flipY = false;

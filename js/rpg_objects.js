@@ -5656,38 +5656,66 @@ Game_Map.prototype.tilesetFlags = function() {
 };
 
 Game_Map.prototype.displayName = function() {
+    // while ($dataMap == null) {
+
+    // }
     return $dataMap.displayName;
 };
 
 Game_Map.prototype.width = function() {
+    while ($dataMap == null) {
+
+    }
+
     return $dataMap.width;
 };
 
 Game_Map.prototype.height = function() {
+    while ($dataMap == null) {
+
+    }
     return $dataMap.height;
 };
 
 Game_Map.prototype.data = function() {
+    // while ($dataMap == null) {
+
+    // }
     return $dataMap.data;
 };
 
 Game_Map.prototype.isLoopHorizontal = function() {
+    // while ($dataMap == null) {
+
+    // }    
     return $dataMap.scrollType === 2 || $dataMap.scrollType === 3;
 };
 
 Game_Map.prototype.isLoopVertical = function() {
+    // while ($dataMap == null) {
+
+    // }    
     return $dataMap.scrollType === 1 || $dataMap.scrollType === 3;
 };
 
 Game_Map.prototype.isDashDisabled = function() {
+    // while ($dataMap == null) {
+
+    // }    
     return $dataMap.disableDashing;
 };
 
 Game_Map.prototype.encounterList = function() {
+    // while ($dataMap == null) {
+
+    // }    
     return $dataMap.encounterList;
 };
 
 Game_Map.prototype.encounterStep = function() {
+    // while ($dataMap == null) {
+
+    // }    
     return $dataMap.encounterStep;
 };
 

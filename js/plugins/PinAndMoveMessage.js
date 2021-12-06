@@ -140,6 +140,10 @@ pin/unpin parameters
 			if (Graphics.isWebGL()) {
 				canvas = Graphics._renderer.extract.canvas(renderTexture);
 			} else {
+				if (renderTexture.baseTexture == undefined || renderTexture.baseTexture == null) {
+	            	window.location.reload();
+	            }
+
 				canvas = renderTexture.baseTexture._canvasRenderTarget.canvas;
 			}
 			if(canvas !== null){
