@@ -339,7 +339,7 @@
  * @dir img/system/
  * @type file
  *
- * @param bulletTyp  eSize
+ * @param bulletTypeSize
  * @type string
  * @desc 弾タイプごとの当たり判定のサイズ。
  * 初期値: 6,6,6,6
