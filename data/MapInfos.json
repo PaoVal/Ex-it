@@ -1,7 +1,7 @@
 [
 null,
 {"id":1,"expanded":true,"name":"Tech Demo","order":1,"parentId":0,"scrollX":841.7142857142857,"scrollY":623.1428571428571},
-{"id":2,"expanded":false,"name":"Black Screen for Cutscene","order":2,"parentId":0,"scrollX":855.4285714285713,"scrollY":623.1428571428571},
+{"id":2,"expanded":false,"name":"Black Screen for Cutscene","order":2,"parentId":0,"scrollX":855.4285714285713,"scrollY":522},
 {"id":3,"expanded":false,"name":"Kitchen w/ fans","order":3,"parentId":0,"scrollX":841.7142857142857,"scrollY":726},
 {"id":4,"expanded":false,"name":"DARK","order":4,"parentId":3,"scrollX":535.5,"scrollY":388},
 {"id":5,"expanded":true,"name":"Kitchen 1 fan","order":5,"parentId":0,"scrollX":841.7142857142857,"scrollY":726},
