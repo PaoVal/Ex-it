@@ -2755,7 +2755,19 @@ Graphics._applyCanvasFilter = function() {
  * @private
  */
 Graphics._onVideoLoad = function() {
-    this._video.play();
+    var playPromise = this._video.play();
+
+    if (playPromise !== undefined) {
+        playPromise.then( _=> {
+            // Automatic playback started!
+            console.log("Auto-play started!");
+        })
+        .catch(error => {
+            // Auto-play was prevented
+            console.log("Auto-play was prevented");
+        });
+    }
+
     this._updateVisibility(true);
     this._videoLoading = false;
 };

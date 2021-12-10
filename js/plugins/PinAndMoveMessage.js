@@ -135,12 +135,18 @@ pin/unpin parameters
 			var msg = $gameMessage._window||SceneManager._scene._windowLayer.children[0];
 			var renderTexture = msg._windowSpriteContainer;
 				renderTexture.renderCanvas(Graphics._renderer);
+			console.log(renderTexture);
 			
 			var canvas = null;
 			if (Graphics.isWebGL()) {
 				canvas = Graphics._renderer.extract.canvas(renderTexture);
 			} else {
-				canvas = renderTexture.baseTexture._canvasRenderTarget.canvas;
+				if (renderTexture.baseTexture == undefined || renderTexture.baseTexture == null) {
+ 	            	window.location.reload();
+ 	            }
+ 	            else {
+ 	            	canvas = renderTexture.baseTexture._canvasRenderTarget.canvas;
+ 	            }
 			}
 			if(canvas !== null){
 				var ctx = canvas.getContext("2d");
