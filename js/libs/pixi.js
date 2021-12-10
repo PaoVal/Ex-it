@@ -17222,6 +17222,7 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var CONTEXT_UID = 0;
+var WEBGL_lose_context;
 
 /**
  * The WebGLRenderer draws the scene and all its content onto a webGL enabled canvas. This renderer
@@ -17432,8 +17433,10 @@ var WebGLRenderer = function (_SystemRenderer) {
 
         // restore a context if it was previously lost
         if (gl.isContextLost() && gl.getExtension('WEBGL_lose_context')) {
+        	console.log("attempt at restoring")
             gl.getExtension('WEBGL_lose_context').restoreContext();
         }
+        WEBGL_lose_context = this.gl.getExtension('WEBGL_lose_context');
 
         var maxTextures = gl.getParameter(gl.MAX_TEXTURE_IMAGE_UNITS);
 
@@ -17866,7 +17869,13 @@ var WebGLRenderer = function (_SystemRenderer) {
 
 
     WebGLRenderer.prototype.handleContextLost = function handleContextLost(event) {
+    	console.log("Context lost: Prevent Default")
         event.preventDefault();
+
+     //    setTimeout(function () {
+     //    	console.log("restored context called");
+     //    	WEBGL_lose_context.restoreContext(); // this doesn't seem to actually do anything?
+    	// }, 5000);
     };
 
     /**
@@ -17874,9 +17883,8 @@ var WebGLRenderer = function (_SystemRenderer) {
      *
      * @private
      */
-
-
     WebGLRenderer.prototype.handleContextRestored = function handleContextRestored() {
+    	console.log("Context restored: init")
         this.textureManager.removeAll();
         this._initContext();
     };
@@ -29553,6 +29561,9 @@ var WebGLExtract = function () {
 
         if (renderTexture) {
             textureBuffer = renderTexture.baseTexture._glRenderTargets[this.renderer.CONTEXT_UID];
+            if (textureBuffer == null) {
+             	window.location.reload();
+            }
             resolution = textureBuffer.resolution;
             frame = renderTexture.frame;
             flipY = false;
