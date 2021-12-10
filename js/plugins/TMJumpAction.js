@@ -23,8 +23,8 @@
  * @param friction
  * @type string
  * @desc 通常の地形とイベントの摩擦の強さ。
- * 初期値: 0.001
- * @default 0.001
+ * 初期値: 0.5
+ * @default 0.5
  *
  * @param tileMarginTop
  * @type string
@@ -433,7 +433,7 @@
  *   <mulch_jump:1>           # 連続ジャンプ回数
  *   <weight:2>               # 重さ
  *   <gravity:0.0045>         # 重力
- *   <friction:0>             # 摩擦
+ *   <friction:0.5>           # 摩擦
  *   <wall_jump>              # 壁ジャンプ
  *   <dash_speed_x:0.14>      # ダッシュ速度（横方向）
  *   <dash_speed_y:0.03>      # ダッシュ速度（縦方向）
@@ -571,7 +571,7 @@ function Game_Bullet() {
   var parameters = PluginManager.parameters('TMJumpAction');
 
   var actGravity = +(parameters['gravity'] || 0.004);
-  var actFriction = +(parameters['friction'] || 0.001);
+  var actFriction = +(parameters['friction'] || 0.5);
   var actTileMarginTop = +(parameters['tileMarginTop'] || 0.5);
   var actStepsForTurn = +(parameters['stepsForTurn'] || 20);
   var actAllDeadEvent = +(parameters['allDeadEvent'] || 0);
@@ -1245,7 +1245,7 @@ function Game_Bullet() {
     this._moveCount = 0;
     this._jumpInput = 0;
     this._dashCount = 0;
-    this._friction = 0;
+    this._friction = 1;
     this._moveSpeed = 0.1;
     this._jumpSpeed = 0.17;
     this._swimSpeed = 0.02;
@@ -2132,7 +2132,7 @@ var count = 1;
         if (this.isGuarding()) speed = speed * actGuardMoveRate / 100;
         switch (this._landingRegion) {
         case actSlipFloorRegion:
-          this._friction = 0.0025;
+          this._friction = 0.5;
           return;
         case actRoughFloorRegion:
           if (Math.abs(this._vx) > speed / 2) {
@@ -2372,7 +2372,7 @@ var count = 1;
           var speed = this.isGuarding() ? -this._moveSpeed * actGuardMoveRate / 100 : -this._moveSpeed;
           this.setDirection(4);
           if (this._vx > speed) {
-            var accele = Math.max(this._accele - this._friction, 0);
+            var accele = Math.max(this._accele - this._friction, 0)+0.0065;
             this._vx = Math.max(this._vx - accele, speed);
           }
           this._moveCount = 4;
@@ -2380,7 +2380,7 @@ var count = 1;
           var speed = this.isGuarding() ? this._moveSpeed * actGuardMoveRate / 100  : this._moveSpeed;
           this.setDirection(6);
           if (this._vx < speed) {
-            var accele = Math.max(this._accele - this._friction, 0);
+            var accele = Math.max(this._accele - this._friction, 0)+0.0065;
             this._vx = Math.min(this._vx + accele, speed);
           }
           this._moveCount = 4;
