@@ -55,20 +55,7 @@ Imported.TDDP_BindPicturesToMap = "1.0.7";
 
     Game_Interpreter.prototype.bindPictureToMap = function(pictureId, bindToMap, layer) {
         // Control first argument input, pictureId
-        if(!pictureId) alert("BindPictureToMap requires the first parameter to be a valid picture Id");
-        if(layer) {
-            this.changePictureLayer(pictureId, layer)
-        }
-        var game_picture = $gameScreen.picture(pictureId)
-        // Update picture_sprite
-        var picture_sprite = SceneManager._scene._spriteset._pictureStorage[pictureId];
-        if(picture_sprite) {
-            if(game_picture && bindToMap != game_picture._bindToMap) {
-                picture_sprite.loadBitmap();
-            }
-            picture_sprite.updateLayer();
-        };
-        if(game_picture) game_picture._bindToMap = bindToMap;
+        
     };
 
     Game_Interpreter.prototype.changePictureLayer = function(pictureId, layer) {
