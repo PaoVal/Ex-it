@@ -5665,7 +5665,9 @@ Game_Map.prototype.width = function() {
             return $dataMap.width;
         }, 5000);
     }
-    return $dataMap.width;
+    else {
+        return $dataMap.width;
+    }
 };
 
 Game_Map.prototype.height = function() {
@@ -5674,7 +5676,9 @@ Game_Map.prototype.height = function() {
             return $dataMap.height;
         }, 5000);
     }
-    return $dataMap.height;
+    else {
+        return $dataMap.height;
+    }
 };
 
 Game_Map.prototype.data = function() {
