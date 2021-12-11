@@ -3597,61 +3597,7 @@ var count = 1;
   // Window_Option
   //
 
-  var _Window_Option_makeCommandList = Window_Options.prototype.makeCommandList;
-  Window_Options.prototype.makeCommandList = function() {
-    _Window_Option_makeCommandList.call(this);
-    if (padConfigCommand) this.addCommand(padConfigCommand, 'padConfig');
-    // 常にダッシュは不要なので削除してしまう。
-    for (var i = 0; i < this._list.length; i++) {
-      if (this._list[i].symbol === 'alwaysDash') {
-        this._list.splice(i, 1);
-        break;
-      }
-    }
-  };
-
-  var _Window_Options_statusText = Window_Options.prototype.statusText;
-  Window_Options.prototype.statusText = function(index) {
-    var symbol = this.commandSymbol(index);
-    if (symbol === 'padConfig') return '';
-    return _Window_Options_statusText.call(this, index);
-  };
-
-  Window_Options.prototype.isPadSymbol = function(symbol) {
-    return symbol.contains('padButton');
-  };
-
-  var _Window_Options_processOk = Window_Options.prototype.processOk;
-  Window_Options.prototype.processOk = function() {
-    var index = this.index();
-    var symbol = this.commandSymbol(index);
-    if (symbol === 'padConfig') {
-      this.playOkSound();
-      this.updateInputData();
-      this.deactivate();
-      this.callHandler('padConfig');
-    } else {
-      _Window_Options_processOk.call(this);
-    }
-  };
-
-  var _Window_Options_cursorRight = Window_Options.prototype.cursorRight;
-  Window_Options.prototype.cursorRight = function(wrap) {
-    var index = this.index();
-    var symbol = this.commandSymbol(index);
-    if (symbol !== 'padConfig') {
-      _Window_Options_cursorRight.call(this, wrap);
-    }
-  };
-
-  var _Window_Options_cursorLeft = Window_Options.prototype.cursorLeft;
-  Window_Options.prototype.cursorLeft = function(wrap) {
-    var index = this.index();
-    var symbol = this.commandSymbol(index);
-    if (symbol !== 'padConfig') {
-      _Window_Options_cursorLeft.call(this, wrap);
-    }
-  };
+  
 
   //-----------------------------------------------------------------------------
   // Window_PadOptions
