@@ -5660,26 +5660,19 @@ Game_Map.prototype.displayName = function() {
 };
 
 Game_Map.prototype.width = function() {
-    var counter = 0;
-
-    while ($dataMap == null) {
-        counter = counter + 1;
-        if (counter > 100000000) {
-            break; // you were stuck here for too long
-        }
+    if ($dataMap == null) {
+        setTimeout(function () {
+            return $dataMap.width;
+        }, 5000);
     }
-
     return $dataMap.width;
 };
 
 Game_Map.prototype.height = function() {
-    var counter = 0;
-
-    while ($dataMap == null) {
-        counter = counter + 1;
-        if (counter > 100000000) {
-            break; // you were stuck here for too long
-        }
+    if ($dataMap == null) {
+        setTimeout(function () {
+            return $dataMap.height;
+        }, 5000);
     }
     return $dataMap.height;
 };
